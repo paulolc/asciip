@@ -8,6 +8,7 @@ import { ResizePoint, getResizePoints } from "../../models/transformation";
 import { Style, StyleMode } from "../../models/style";
 import { ShapeObject } from "../../store/diagramSlice";
 import { alpha } from "@mui/material/styles";
+import { getIntersectionsChars } from "./intersect";
 
 export const FONT_SIZE = 16;
 export const FONT_WIDTH = 9.603; // see https://stackoverflow.com/a/56379770/471461
@@ -149,6 +150,11 @@ function getGraphicCanvasRepresentation(
 
     graphicCanvasRepr = _.merge(graphicCanvasRepr, graphicShapeRepr);
   });
+  
+  // change the intersections chars in graphicCanvasRepr before returning it
+  getIntersectionsChars(shapes).forEach(p => 
+    graphicCanvasRepr[p.r][p.c].char = p.char
+  );
 
   return graphicCanvasRepr;
 }
